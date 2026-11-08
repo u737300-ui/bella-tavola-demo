@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bella Tavola — Authentic Italian Kitchen</title>
+<meta name="description" content="Bella Tavola — a fictional Italian restaurant demo landing page built by Qodra Dev. Handmade pasta, wood-fired pizza, and warm Italian hospitality.">
+<style>
+  :root{
+    --ink:#221a15; --cream:#faf5ee; --terra:#b4552d; --terra-dark:#96431f;
+    --olive:#5c6650; --gold:#c9a35c; --card:#ffffff; --muted:#6f6459;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--cream);line-height:1.6}
+  img{display:block;max-width:100%}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+
+  /* Header */
+  header{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(24,17,12,.92);backdrop-filter:blur(6px)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{color:#fff;font-size:1.45rem;letter-spacing:.5px}
+  .logo em{color:var(--gold);font-style:normal}
+  .nav-links{display:flex;gap:28px;color:#e9ded0;font-family:Arial,Helvetica,sans-serif;font-size:.92rem}
+  .nav-links a:hover{color:var(--gold)}
+  .btn{display:inline-block;background:var(--terra);color:#fff;padding:12px 26px;border-radius:999px;
+       font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:.95rem;border:none;cursor:pointer;transition:background .2s}
+  .btn:hover{background:var(--terra-dark)}
+  .btn.small{padding:9px 20px;font-size:.88rem}
+  .menu-toggle{display:none;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer}
+
+  /* Hero */
+  .hero{min-height:92vh;display:flex;align-items:center;background:url('img/hero.jpg') center/cover no-repeat;position:relative;color:#fff}
+  .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,10,6,.78) 0%,rgba(15,10,6,.45) 55%,rgba(15,10,6,.15) 100%)}
+  .hero-inner{position:relative;z-index:1;padding:120px 0 80px}
+  .hero .kicker{font-family:Arial,Helvetica,sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-size:.82rem;margin-bottom:14px}
+  .hero h1{font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.08;font-weight:normal;max-width:640px}
+  .hero p{max-width:520px;margin:20px 0 30px;font-size:1.12rem;color:#f2e8da}
+  .hero-badges{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;font-family:Arial,Helvetica,sans-serif;font-size:.9rem;color:#efe4d2}
+  .hero-badges span::before{content:'★ ';color:var(--gold)}
+
+  section{padding:84px 0}
+  .section-head{text-align:center;max-width:640px;margin:0 auto 48px}
+  .section-head .kicker{font-family:Arial,Helvetica,sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--terra);font-size:.8rem}
+  .section-head h2{font-size:2.2rem;font-weight:normal;margin:10px 0 12px}
+  .section-head p{color:var(--muted)}
+
+  /* Menu highlights */
+  .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .dish{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 8px 28px rgba(60,40,20,.10)}
+  .dish img{height:210px;width:100%;object-fit:cover}
+  .dish-body{padding:22px}
+  .dish-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .dish h3{font-size:1.25rem;font-weight:normal}
+  .price{color:var(--terra);font-family:Arial,Helvetica,sans-serif;font-weight:bold;white-space:nowrap}
+  .dish p{color:var(--muted);font-size:.96rem;margin-top:8px}
+  .tag{display:inline-block;margin-top:14px;font-family:Arial,Helvetica,sans-serif;font-size:.72rem;letter-spacing:1px;
+       text-transform:uppercase;background:#f3e7d7;color:var(--terra-dark);padding:4px 10px;border-radius:999px}
+
+  /* About */
+  .about{background:#fff}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .about-grid img{border-radius:18px;height:420px;width:100%;object-fit:cover}
+  .about h2{font-size:2.1rem;font-weight:normal;margin-bottom:16px}
+  .about p{color:var(--muted);margin-bottom:14px}
+  .stats{display:flex;gap:36px;margin-top:24px}
+  .stat b{display:block;font-size:1.7rem;color:var(--terra);font-weight:normal}
+  .stat span{font-family:Arial,Helvetica,sans-serif;font-size:.82rem;color:var(--muted)}
+
+  /* Testimonials */
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .testi{background:#fff;border-radius:16px;padding:28px;box-shadow:0 8px 28px rgba(60,40,20,.08)}
+  .stars{color:var(--gold);letter-spacing:2px;margin-bottom:12px}
+  .testi p{font-style:italic;color:#4c4238}
+  .testi footer{margin-top:16px;font-family:Arial,Helvetica,sans-serif;font-size:.88rem;color:var(--muted);font-style:normal}
+
+  /* Reservation */
+  .reserve{background:linear-gradient(rgba(20,13,8,.86),rgba(20,13,8,.86)),url('img/interior.jpg') center/cover no-repeat;color:#fff}
+  .reserve-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  .reserve h2{font-size:2.1rem;font-weight:normal;margin-bottom:14px}
+  .reserve p{color:#e6d9c6;max-width:420px}
+  .hours{margin-top:26px;font-family:Arial,Helvetica,sans-serif;font-size:.95rem;line-height:2}
+  .hours b{color:var(--gold);font-weight:normal}
+  form{background:#fff;color:var(--ink);border-radius:18px;padding:30px;display:grid;gap:14px}
+  label{font-family:Arial,Helvetica,sans-serif;font-size:.85rem;font-weight:bold;display:grid;gap:6px}
+  input,select,textarea{font:inherit;font-size:.98rem;padding:11px 14px;border:1px solid #d9cfc2;border-radius:10px;background:#fffdf9;width:100%}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);border-color:transparent}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form-note{font-family:Arial,Helvetica,sans-serif;font-size:.8rem;color:var(--muted);text-align:center}
+  .sent{display:none;background:#eef5e6;border:1px solid #b9d1a3;color:#3c5a24;border-radius:10px;
+        padding:12px 14px;font-family:Arial,Helvetica,sans-serif;font-size:.9rem}
+
+  /* Footer */
+  .site-footer{background:#171009;color:#cbb99f;padding:44px 0 30px;font-family:Arial,Helvetica,sans-serif}
+  .foot-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+  .site-footer h4{color:#fff;font-family:Georgia,serif;font-weight:normal;font-size:1.2rem;margin-bottom:8px}
+  .demo-label{margin-top:28px;padding-top:18px;border-top:1px solid #3a2d1d;font-size:.82rem;color:#9a8567;text-align:center}
+
+  @media(max-width:860px){
+    .menu-grid,.testi-grid{grid-template-columns:1fr}
+    .about-grid,.reserve-grid{grid-template-columns:1fr}
+    .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:rgba(24,17,12,.97);
+                flex-direction:column;padding:18px 20px;gap:16px}
+    .nav-links.open{display:flex}
+    .menu-toggle{display:block}
+    section{padding:60px 0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">Bella <em>Tavola</em></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#menu">Menu</a>
+      <a href="#about">Our Story</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#reserve">Reserve</a>
+    </nav>
+    <a class="btn small" href="#reserve">Book a Table</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap hero-inner">
+    <p class="kicker">Authentic Italian Kitchen · Est. 1998</p>
+    <h1>Handmade pasta, wood-fired flavour, family warmth.</h1>
+    <p>Every evening, Bella Tavola serves the recipes Nonna Rosa carried from Bologna — rolled by hand each morning, cooked to order, and shared the Italian way.</p>
+    <a class="btn" href="#reserve">Reserve Your Table</a>
+    <a class="btn" href="#menu" style="background:transparent;border:2px solid #fff;margin-left:10px">View Menu</a>
+    <div class="hero-badges">
+      <span>4.9 from 1,200+ guests</span>
+      <span>Wood-fired oven</span>
+      <span>Fresh pasta daily</span>
+    </div>
+  </div>
+</div>
+
+<!-- MENU HIGHLIGHTS -->
+<section id="menu">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Menu Highlights</p>
+      <h2>Favourites from our kitchen</h2>
+      <p>A short list of the dishes our regulars cross the city for. Everything is made in-house, from the dough to the desserts.</p>
+    </div>
+    <div class="menu-grid">
+      <article class="dish">
+        <img src="img/pasta.jpg" alt="Handmade tagliatelle with slow-cooked ragù">
+        <div class="dish-body">
+          <div class="dish-top"><h3>Tagliatelle al Ragù</h3><span class="price">$18</span></div>
+          <p>Silky hand-cut pasta folded through a six-hour beef and tomato ragù, finished with aged Parmigiano.</p>
+          <span class="tag">Signature</span>
+        </div>
+      </article>
+      <article class="dish">
+        <img src="img/pizza.jpg" alt="Wood-fired margherita pizza">
+        <div class="dish-body">
+          <div class="dish-top"><h3>Pizza Margherita</h3><span class="price">$14</span></div>
+          <p>San Marzano tomatoes, fior di latte and basil on a blistered, wood-fired crust — Naples on a plate.</p>
+          <span class="tag">Wood-fired</span>
+        </div>
+      </article>
+      <article class="dish">
+        <img src="img/dish.jpg" alt="Chef's seasonal special served at the table">
+        <div class="dish-body">
+          <div class="dish-top"><h3>Chef's Seasonal Special</h3><span class="price">$26</span></div>
+          <p>Ask your server about tonight's special — built each morning around what the market brought in.</p>
+          <span class="tag">Chef's pick</span>
+        </div>
+      </article>
+      <article class="dish">
+        <img src="img/salad.jpg" alt="Fresh garden salad bowl">
+        <div class="dish-body">
+          <div class="dish-top"><h3>Insalata della Casa</h3><span class="price">$11</span></div>
+          <p>Crisp garden leaves, shaved fennel, olives and a lemon-herb dressing. Light, bright, unmistakably Italian.</p>
+          <span class="tag">Vegetarian</span>
+        </div>
+      </article>
+      <article class="dish">
+        <img src="img/interior.jpg" alt="Guests sharing dishes inside Bella Tavola">
+        <div class="dish-body">
+          <div class="dish-top"><h3>Family Sharing Board</h3><span class="price">$34</span></div>
+          <p>A generous board of antipasti, grilled vegetables, cured meats and warm focaccia — made for the middle of the table.</p>
+          <span class="tag">For sharing</span>
+        </div>
+      </article>
+      <article class="dish">
+        <img src="img/dessert.jpg" alt="Classic Italian dessert">
+        <div class="dish-body">
+          <div class="dish-top"><h3>Tiramisù Classico</h3><span class="price">$9</span></div>
+          <p>Espresso-soaked savoiardi layered with mascarpone cream and a dusting of cocoa. Nonna Rosa's original recipe.</p>
+          <span class="tag">Dessert</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <img src="img/interior.jpg" alt="Inside the Bella Tavola dining room">
+    <div>
+      <h2>One family, one table, twenty-five years</h2>
+      <p>Bella Tavola began in 1998 when the Moretti family turned a small corner kitchen into the restaurant they had dreamed about back in Bologna. The menu has grown, the dining room has doubled — the rules haven't changed.</p>
+      <p>Pasta is rolled by hand every morning. The wood oven never cools before the last guest leaves. And nobody rushes you out of your chair: in our house, dinner takes as long as dinner takes.</p>
+      <div class="stats">
+        <div class="stat"><b>25+</b><span>Years serving</span></div>
+        <div class="stat"><b>40+</b><span>Dishes nightly</span></div>
+        <div class="stat"><b>4.9★</b><span>Guest rating</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Guest Book</p>
+      <h2>What our guests say</h2>
+    </div>
+    <div class="testi-grid">
+      <article class="testi">
+        <div class="stars">★★★★★</div>
+        <p>"The tagliatelle tastes like the one I had in Bologna ten years ago. We've booked our anniversary dinner here three years running."</p>
+        <footer>— Sofia M., regular since 2019</footer>
+      </article>
+      <article class="testi">
+        <div class="stars">★★★★★</div>
+        <p>"Booked online in two minutes, and the staff had a high chair and a smile ready when we arrived. The margherita is genuinely superb."</p>
+        <footer>— Daniel K., family dinner</footer>
+      </article>
+      <article class="testi">
+        <div class="stars">★★★★★</div>
+        <p>"Warm room, honest prices, and a tiramisù I'll be thinking about all week. This is our neighbourhood's best table, easily."</p>
+        <footer>— Priya R., first-time guest</footer>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section class="reserve" id="reserve">
+  <div class="wrap reserve-grid">
+    <div>
+      <h2>Reserve your table</h2>
+      <p>Tell us when, and for how many — the form opens a pre-written email to our reservations desk so we can confirm your booking personally.</p>
+      <div class="hours">
+        <div><b>Mon – Thu</b> &nbsp;12:00 – 22:00</div>
+        <div><b>Fri – Sat</b> &nbsp;12:00 – 23:30</div>
+        <div><b>Sunday</b> &nbsp;13:00 – 21:00</div>
+        <div style="margin-top:12px">12 Olive Grove Lane · (555) 014-2288</div>
+      </div>
+    </div>
+    <form id="resForm">
+      <div class="form-row">
+        <label>Your name
+          <input type="text" id="rName" required placeholder="e.g. Alex Morgan">
+        </label>
+        <label>Phone
+          <input type="tel" id="rPhone" required placeholder="e.g. 555 010 2233">
+        </label>
+      </div>
+      <div class="form-row">
+        <label>Date
+          <input type="date" id="rDate" required>
+        </label>
+        <label>Time
+          <select id="rTime">
+            <option>18:00</option><option>18:30</option><option selected>19:00</option>
+            <option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option>
+          </select>
+        </label>
+      </div>
+      <label>Guests
+        <select id="rGuests">
+          <option>2 guests</option><option>3 guests</option><option>4 guests</option>
+          <option>5 guests</option><option>6 guests</option><option>7+ guests (group)</option>
+        </select>
+      </label>
+      <label>Anything we should know? <span style="font-weight:normal;color:#6f6459">(optional)</span>
+        <textarea id="rNotes" rows="3" placeholder="Allergies, occasions, window seat…"></textarea>
+      </label>
+      <button class="btn" type="submit">Request Reservation</button>
+      <p class="sent" id="resSent">✓ Opening your email app with the reservation — just press send and we'll confirm shortly.</p>
+      <p class="form-note">No account needed. The form composes an email in your own mail app.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>Bella Tavola</h4>
+        <p>Authentic Italian kitchen<br>12 Olive Grove Lane</p>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <p>Mon–Sat from 12:00<br>Sunday from 13:00</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>(555) 014-2288<br>reservations@bellatavola.example</p>
+      </div>
+    </div>
+    <p class="demo-label">Demo project built by Qodra Dev — Bella Tavola is a fictional restaurant created to demonstrate landing-page design and development. Photos: Unsplash.</p>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav
+  var toggle = document.getElementById('menuToggle');
+  var links = document.getElementById('navLinks');
+  toggle.addEventListener('click', function(){ links.classList.toggle('open'); });
+  links.addEventListener('click', function(){ links.classList.remove('open'); });
+
+  // Reservation form -> composes an email in the visitor's mail app
+  document.getElementById('resForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name  = document.getElementById('rName').value.trim();
+    var phone = document.getElementById('rPhone').value.trim();
+    var date  = document.getElementById('rDate').value;
+    var time  = document.getElementById('rTime').value;
+    var guests= document.getElementById('rGuests').value;
+    var notes = document.getElementById('rNotes').value.trim();
+    var subject = 'Reservation request — ' + name + ' — ' + date + ' ' + time;
+    var body = 'Hello Bella Tavola,\n\nI would like to reserve a table.\n\n' +
+               'Name: ' + name + '\nPhone: ' + phone + '\nDate: ' + date +
+               '\nTime: ' + time + '\nGuests: ' + guests +
+               (notes ? '\nNotes: ' + notes : '') +
+               '\n\nPlease confirm availability. Thank you!';
+    window.location.href = 'mailto:reservations@bellatavola.example' +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+    document.getElementById('resSent').style.display = 'block';
+  });
+</script>
+</body>
+</html>
